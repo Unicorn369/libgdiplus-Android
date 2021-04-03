@@ -62,9 +62,6 @@
 /* Define to 1 if you have the `_NSGetExecutablePath' function. */
 /* #undef HAVE__NSGETEXECUTABLEPATH */
 
-/* Define to the value of ${prefix}, as a string. */
-#define INSTALLPREFIX "/data/data/com.termux/files/usr"
-
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
 

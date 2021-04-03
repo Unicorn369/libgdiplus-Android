@@ -4,14 +4,14 @@
 /* Define if building universal (internal helper macro) */
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
+/* AIX or PASE */
+/* #undef AIX */
+
 /* OpenBSD */
 /* #undef BSDOS */
 
 /* Win32 */
 /* #undef CYGWIN */
-
-/* Skip X11 support */
-//#define HAS_X11 1
 
 /* Define to 1 if you have the <byteswap.h> header file. */
 #define HAVE_BYTESWAP_H 1
@@ -38,7 +38,7 @@
 /* #undef HAVE_LIBINTL */
 
 /* Define if jpeg support is available */
-/* #undef HAVE_LIBJPEG */
+#define HAVE_LIBJPEG 1
 
 /* Define if png support is available. Always defined. */
 #define HAVE_LIBPNG 1
@@ -79,6 +79,9 @@
 /* Support for the visibility ("hidden") attribute */
 #define HAVE_VISIBILITY_HIDDEN 1
 
+/* Define if x11 is available. */
+//#define HAVE_X11 1
+
 /* Linux */
 #define LINUX 1
 
@@ -95,13 +98,13 @@
 #define PACKAGE "libgdiplus"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT "https://bugzilla.xamarin.com/enter_bug.cgi?product=Class%20Libraries&component=libgdiplus"
+#define PACKAGE_BUGREPORT "https://github.com/mono/mono/issues/new"
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME "libgdiplus"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libgdiplus 5.6"
+#define PACKAGE_STRING "libgdiplus 6.0.5"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libgdiplus"
@@ -110,7 +113,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "5.6"
+#define PACKAGE_VERSION "6.0.5"
 
 /* Solaris */
 /* #undef SOLARIS */
@@ -118,11 +121,11 @@
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
-/* Use Pango to measure and draw text (INCOMPLETE and UNSUPPORTED) */
+/* Use Pango to measure and draw text */
 /* #undef USE_PANGO_RENDERING */
 
 /* Version number of package */
-#define VERSION "5.6"
+#define VERSION "6.0.5"
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */
