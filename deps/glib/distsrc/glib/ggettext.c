@@ -21,7 +21,7 @@
  * files for a list of changes.  These files are distributed with
  * GLib at ftp://ftp.gtk.org/pub/gtk/. 
  */
-
+#ifndef LIBINTL_LITE
 #include "config.h"
 
 #include "ggettext.h"
@@ -617,4 +617,4 @@ g_dngettext (const gchar *domain,
  *
  * Since: 2.18
  */
-
+#endif

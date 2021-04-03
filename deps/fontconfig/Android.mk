@@ -6,7 +6,6 @@ LOCAL_MODULE     := fontconfig
 
 LOCAL_CFLAGS := -DHAVE_CONFIG_H
 
-LOCAL_CFLAGS := -DHAVE_CONFIG_H
 # Additional font directories
 LOCAL_CFLAGS += -DFC_CACHEDIR=\"/sdcard/fontconfig/cache\"
 LOCAL_CFLAGS += -DFC_TEMPLATEDIR=\"/sdcard/fontconfig/conf.avail\"
@@ -26,13 +25,14 @@ LOCAL_C_INCLUDES := \
     $(LOCAL_PATH)/src \
 	$(LOCAL_PATH)/../freetype/include \
 	$(LOCAL_PATH)/../libexpat/lib \
-	$(LOCAL_PATH)/../libuuid/include
+	$(LOCAL_PATH)/../libuuid/include \
+	$(LOCAL_PATH)/../libiconv/include
 
-LOCAL_STATIC_LIBRARIES := android_support freetype libexpat libuuid
+LOCAL_STATIC_LIBRARIES := freetype libexpat libiconv libuuid
 
 include $(BUILD_STATIC_LIBRARY)
 
-$(call import-module,android/support)
 $(call import-module,deps/freetype)
 $(call import-module,deps/libexpat)
 $(call import-module,deps/libuuid)
+$(call import-module,deps/libiconv)

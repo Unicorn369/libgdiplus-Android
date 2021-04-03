@@ -25,17 +25,17 @@ GLIB_CORE_SOURCES = $(filter %.c, $(libglib_2_0_la_SOURCES)) gspawn.c giounix.c
 
 LOCAL_MODULE:= glib
 LOCAL_SRC_FILES:= $(GLIB_CORE_SOURCES) $(GNULIB_SOURCES) $(CHARSET_SOURCES)
-LOCAL_CFLAGS += -DGLIB_COMPILATION=1 -DNVALGRIND=1
+LOCAL_CFLAGS += -DGLIB_COMPILATION=1 -DNVALGRIND=1 -DLIBINTL_LITE
 LOCAL_EXPORT_LDLIBS := -lz
 LOCAL_C_INCLUDES := $(MAKEFILE_PATH) $(MAKEFILE_PATH)/include $(GLIB_SOURCES_PATH) \
-                    $(NDK_ROOT)/sources/android/support/include \
-                    $(NDK_ROOT)/sources/android/support/src/musl-locale
-LOCAL_STATIC_LIBRARIES := android_support pcre
+                    $(MAKEFILE_PATH)/../libiconv/include
+
+LOCAL_STATIC_LIBRARIES := libiconv pcre
 
 export GLIB_INCLUDES := $(MAKEFILE_PATH)/include $(GLIB_SOURCES_PATH) \
                         $(GLIB_SOURCES_PATH)/gmodule $(LOCAL_PATH)
 
 include $(BUILD_STATIC_LIBRARY)
 
-$(call import-module,android/support)
+$(call import-module,deps/libiconv)
 $(call import-module,deps/pcre)
