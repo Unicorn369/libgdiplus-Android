@@ -1,6 +1,6 @@
 LOCAL_PATH := $(call my-dir)
 
-LIBPIXMAN_SRC= \
+LIBPIXMAN_SRC = \
 	       src/pixman.c                       \
 	       src/pixman-access.c                \
 	       src/pixman-access-accessors.c      \
@@ -31,7 +31,7 @@ LIBPIXMAN_SRC= \
 	       src/pixman-utils.c                 \
 	       src/pixman-x86.c                   \
 
-LIBPIXMAN_CFLAGS:=-D_USE_MATH_DEFINES -DPIXMAN_NO_TLS -DPACKAGE="android-cairo" -include "limits.h"
+LIBPIXMAN_CFLAGS := -D_USE_MATH_DEFINES -DPIXMAN_NO_TLS
 
 ifeq ($(strip $(TARGET_ARCH)),arm)
     ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
@@ -54,11 +54,7 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := pixman
-LOCAL_CFLAGS    := -O2 $(LIBPIXMAN_CFLAGS) \
-    -Isrc -Iandroid \
-    -include "pixman-elf-fix.h" \
-    -Wno-missing-field-initializers
-LOCAL_LDFLAGS   :=
+LOCAL_CFLAGS    := $(LIBPIXMAN_CFLAGS) -Wno-missing-field-initializers
 LOCAL_SRC_FILES := $(LIBPIXMAN_SRC)
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/android $(LOCAL_PATH)/src
 LOCAL_STATIC_LIBRARIES := cpufeatures

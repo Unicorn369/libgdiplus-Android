@@ -117,19 +117,17 @@ LIBCAIRO_SRC = \
            cairo/cairo-ft-font.c                     \
 
 
-LIBCAIRO_CFLAGS:=                                                   \
-    -DPACKAGE_VERSION="\"android-cairo\""                           \
-    -DPACKAGE_BUGREPORT="\"http://github.com/anoek/android-cairo\"" \
-    -DCAIRO_NO_MUTEX=1                                              \
-    -DHAVE_STDINT_H                                                 \
-    -DHAVE_UINT64_T                                                 \
+LIBCAIRO_CFLAGS:=                                    \
+    -DCAIRO_NO_MUTEX=1                               \
+    -DHAVE_STDINT_H                                  \
+    -DHAVE_UINT64_T                                  \
 
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := libcairo
-LOCAL_CFLAGS    := -O2 $(LIBCAIRO_CFLAGS) -I../pixman/src -Iandroid -Wno-missing-field-initializers -Wno-attributes
+LOCAL_CFLAGS    := $(LIBCAIRO_CFLAGS) -Wno-missing-field-initializers -Wno-attributes
 LOCAL_SRC_FILES := $(LIBCAIRO_SRC)
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/android \
 					$(LOCAL_PATH)/../fontconfig \
