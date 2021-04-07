@@ -1,17 +1,17 @@
 ﻿# libgdiplus-android
- 适用于Android的 [libgdiplus](https://github.com/mono/libgdiplus)
+适用于Android的 [libgdiplus](https://github.com/mono/libgdiplus)
+
+主要用于解决 **Unity** 安卓平台无法使用 `System.Drawing.dll` 插件的问题
 
 ## 下载NDK
-Windows https://dl.google.com/android/repository/android-ndk-r15b-windows-x86_64.zip
-
-macOS https://dl.google.com/android/repository/android-ndk-r15b-darwin-x86_64.zip
-
-Linux https://dl.google.com/android/repository/android-ndk-r15b-linux-x86_64.zip
+https://developer.android.com/ndk/downloads/older_releases.html
 
 ## 编译
 ```
 ndk-build
 ```
+
+如果编译失败，请尝试：ndk-r22b、ndk-r21e、ndk-r15b、ndk-r10e
 
 ## 使用到的库
 |    名称    |   版本   |
