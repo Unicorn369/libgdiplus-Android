@@ -21,8 +21,8 @@ ndk-build
 | freetype   |  2.10.1  |
 | glib       |  2.40.2  |
 | libexpat   |  2.0.1   |
-| libiconv   |  1.16    |
+| libiconv   |  1.16.10 |
 | libjpeg    |          |
 | libpng     |  1.6.37  |
 | libuuid    |  1.0.3   |
-| pixman     |  0.32.6  |
+| pixman     |  0.38.4  |

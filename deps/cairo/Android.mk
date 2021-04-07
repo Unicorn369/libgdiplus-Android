@@ -132,8 +132,7 @@ LOCAL_SRC_FILES := $(LIBCAIRO_SRC)
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/android \
 					$(LOCAL_PATH)/../fontconfig \
 					$(LOCAL_PATH)/../freetype/include \
-					$(LOCAL_PATH)/../pixman/src \
-					$(LOCAL_PATH)/../pixman/android \
+					$(LOCAL_PATH)/../pixman \
 					$(LOCAL_PATH)/../libpng \
 
 LOCAL_STATIC_LIBRARIES := fontconfig libpng pixman

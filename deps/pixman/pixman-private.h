@@ -1,5 +1,3 @@
-#include <float.h>
-
 #ifndef PIXMAN_PRIVATE_H
 #define PIXMAN_PRIVATE_H
 
@@ -17,6 +15,10 @@
 
 #ifndef __ASSEMBLER__
 
+#ifndef PACKAGE
+#  error config.h must be included before pixman-private.h
+#endif
+
 #define PIXMAN_DISABLE_DEPRECATED
 #define PIXMAN_USE_INTERNAL_API
 
@@ -26,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
+#include <float.h>
 
 #include "pixman-compiler.h"
 
@@ -360,9 +363,38 @@ void
 _pixman_gradient_walker_reset (pixman_gradient_walker_t *walker,
                                pixman_fixed_48_16_t      pos);
 
-uint32_t
-_pixman_gradient_walker_pixel (pixman_gradient_walker_t *walker,
-                               pixman_fixed_48_16_t      x);
+typedef void (*pixman_gradient_walker_write_t) (
+    pixman_gradient_walker_t *walker,
+    pixman_fixed_48_16_t      x,
+    uint32_t                 *buffer);
+
+void
+_pixman_gradient_walker_write_narrow(pixman_gradient_walker_t *walker,
+				     pixman_fixed_48_16_t      x,
+				     uint32_t                 *buffer);
+
+void
+_pixman_gradient_walker_write_wide(pixman_gradient_walker_t *walker,
+				   pixman_fixed_48_16_t      x,
+				   uint32_t                 *buffer);
+
+typedef void (*pixman_gradient_walker_fill_t) (
+    pixman_gradient_walker_t *walker,
+    pixman_fixed_48_16_t      x,
+    uint32_t                 *buffer,
+    uint32_t                 *end);
+
+void
+_pixman_gradient_walker_fill_narrow(pixman_gradient_walker_t *walker,
+				    pixman_fixed_48_16_t      x,
+				    uint32_t                 *buffer,
+				    uint32_t                 *end);
+
+void
+_pixman_gradient_walker_fill_wide(pixman_gradient_walker_t *walker,
+				  pixman_fixed_48_16_t      x,
+				  uint32_t                 *buffer,
+				  uint32_t                 *end);
 
 /*
  * Edges
