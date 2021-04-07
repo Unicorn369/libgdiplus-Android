@@ -50,6 +50,10 @@
 #include "config.h"
 #endif
 
+#ifdef __GNUC__
+#pragma GCC diagnostic ignored "-Wenum-conversion"
+#endif
+
 #ifdef _MSC_VER
 #define cairo_public __declspec(dllexport)
 #endif

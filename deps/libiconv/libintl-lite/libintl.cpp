@@ -318,7 +318,7 @@ const char* ngettext(const char* origStr, const char* origStrPlural, unsigned lo
 	}
 }
 
-const char* g_dngettext(const char* domain, const char* origStr, const char* origStrPlural, unsigned long n)
+const char* dngettext(const char* domain, const char* origStr, const char* origStrPlural, unsigned long n)
 {
 	if (n == 1)
 	{

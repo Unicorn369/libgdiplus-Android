@@ -38,6 +38,7 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-font-options.c                \
 	       cairo/cairo-freed-pool.c                  \
 	       cairo/cairo-freelist.c                    \
+           cairo/cairo-ft-font.c                     \
 	       cairo/cairo-gstate.c                      \
 	       cairo/cairo-hash.c                        \
 	       cairo/cairo-hull.c                        \
@@ -69,11 +70,15 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-path-stroke.c                 \
 	       cairo/cairo-path.c                        \
 	       cairo/cairo-pattern.c                     \
+	       cairo/cairo-pdf-operators.c               \
+	       cairo/cairo-pdf-shading.c                 \
+	       cairo/cairo-pdf-surface.c                 \
 	       cairo/cairo-pen.c                         \
 	       cairo/cairo-png.c                         \
 	       cairo/cairo-polygon-intersect.c           \
 	       cairo/cairo-polygon-reduce.c              \
 	       cairo/cairo-polygon.c                     \
+	       cairo/cairo-ps-surface.c                  \
 	       cairo/cairo-raster-source-pattern.c       \
 	       cairo/cairo-recording-surface.c           \
 	       cairo/cairo-rectangle.c                   \
@@ -97,6 +102,7 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-surface-subsurface.c          \
 	       cairo/cairo-surface-wrapper.c             \
 	       cairo/cairo-surface.c                     \
+	       cairo/cairo-svg-surface.c                 \
 	       cairo/cairo-tee-surface.c                 \
 	       cairo/cairo-time.c                        \
 	       cairo/cairo-tor-scan-converter.c          \
@@ -114,7 +120,6 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-user-font.c                   \
 	       cairo/cairo-version.c                     \
 	       cairo/cairo-wideint.c                     \
-           cairo/cairo-ft-font.c                     \
 
 
 LIBCAIRO_CFLAGS:=                                    \

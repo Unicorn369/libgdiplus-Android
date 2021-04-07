@@ -115,7 +115,11 @@ LIBINTL_LITE_API const char* ngettext(const char* origStr, const char* origStrPl
 /**
  * Works like the ngettext() function, but uses the message catalog for a specified domain.
  */
-LIBINTL_LITE_API const char* g_dngettext(const char* domain, const char* origStr, const char* origStrPlural, unsigned long n);
+LIBINTL_LITE_API const char* dngettext(const char* domain, const char* origStr, const char* origStrPlural, unsigned long n);
+
+LIBINTL_LITE_API const char* g_dngettext(const char* domain, const char* origStr, const char* origStrPlural, unsigned long n) {
+	return dngettext(domain, origStr, origStrPlural, n);
+}
 
 #ifdef __cplusplus
 } // extern "C"
