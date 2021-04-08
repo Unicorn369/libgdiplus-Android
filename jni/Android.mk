@@ -1,5 +1,9 @@
 LOCAL_PATH := $(call my-dir)/..
 
+#################################
+#USE_ZLIB ?= true
+USE_ZLIB ?= false
+
 ######### [libgdiplus] ##########
 include $(CLEAR_VARS)
 LOCAL_MODULE := libgdiplus
@@ -63,8 +67,6 @@ LOCAL_SRC_FILES := \
                    src/tiffcodec.c \
                    src/wmfcodec.c
 
-LOCAL_LDLIBS     += -llog -landroid -lz
-
 LOCAL_STATIC_LIBRARIES += glib 
 LOCAL_STATIC_LIBRARIES += libcairo
 LOCAL_STATIC_LIBRARIES += libgif 
@@ -77,3 +79,6 @@ $(call import-module,deps/cairo)
 $(call import-module,deps/glib)
 $(call import-module,deps/libgif)
 $(call import-module,deps/libjpeg)
+ifeq ($(USE_ZLIB),true)
+    $(call import-module,deps/zlib)
+endif

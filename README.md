@@ -27,3 +27,4 @@ ndk-build
 | libpng     |  1.6.10  |
 | libuuid    |  1.0.3   |
 | pixman     |  0.38.4  |
+| zlib       |  1.2.11  |
