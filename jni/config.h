@@ -32,7 +32,7 @@
 #define HAVE_LIBFONTCONFIG 1
 
 /* Define if gif support is available */
-/* #undef HAVE_LIBGIF */
+#define HAVE_LIBGIF 1
 
 /* Define to 1 if you have the `intl' library (-lintl). */
 /* #undef HAVE_LIBINTL */
