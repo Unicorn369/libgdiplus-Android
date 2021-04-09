@@ -1,8 +1,8 @@
 LOCAL_PATH := $(call my-dir)/..
 
 #################################
-#USE_ZLIB ?= true
-USE_ZLIB ?= false
+#USE_ZLIB ?= false
+USE_ZLIB ?= true
 
 ######### [libgdiplus] ##########
 include $(CLEAR_VARS)

@@ -1398,7 +1398,7 @@ get_session_address_dbus_launch (GError **error)
 	  wcscat (args, rundll_path);
 	  wcscat (args, L"\" ");
 	  wcscat (args, gio_path_short);
-#if defined(_WIN64) || defined(_M_X64) || defined(_M_AMD64)
+#if defined(_WIN64) || defined(_M_X64) || defined(_M_AMD64) || (defined(__arm64__) || defined(__aarch64__))
 	  wcscat (args, L",g_win32_run_session_bus");
 #elif defined (_MSC_VER)
 	  wcscat (args, L",_g_win32_run_session_bus@16");
