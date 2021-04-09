@@ -20,7 +20,7 @@ ndk-build
 | fontconfig |  2.13.1  |
 | freetype   |  2.10.1  |
 | glib       |  2.40.2  |
-| libexpat   |  2.0.1   |
+| libexpat   |  2.3.0   |
 | libgif     |  5.2.1   |
 | libiconv   |  1.16    |
 | libjpeg    |          |
