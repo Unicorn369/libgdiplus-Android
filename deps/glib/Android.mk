@@ -23,9 +23,6 @@ else
     LOCAL_EXPORT_LDLIBS := -lz
 endif
 
-export GLIB_INCLUDES := $(MAKEFILE_PATH)/include $(GLIB_SOURCES_PATH) \
-                        $(GLIB_SOURCES_PATH)/gmodule $(LOCAL_PATH)
-
 include $(BUILD_STATIC_LIBRARY)
 
 $(call import-module,deps/libiconv)

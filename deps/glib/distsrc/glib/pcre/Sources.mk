@@ -36,7 +36,6 @@ libpcre_la_CPPFLAGS = -DG_LOG_DOMAIN=\"GLib-GRegex\"          \
                       -DPCRE_STATIC                           \
                       -UBSR_ANYCRLF                           \
                       -UEBCDIC                                \
-                      $(glib_INCLUDES)                        \
                       -DGLIB_COMPILATION                      \
                       $(AM_CPPFLAGS)                          
 

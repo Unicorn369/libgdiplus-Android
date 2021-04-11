@@ -80,7 +80,7 @@ detect_cpu_features (void)
 static pixman_bool_t
 have_cpuid (void)
 {
-#if _PIXMAN_X86_64 || defined (_MSC_VER)
+#if defined(_PIXMAN_X86_64) || defined (_MSC_VER)
 
     return TRUE;
 
@@ -115,7 +115,7 @@ pixman_cpuid (uint32_t feature,
 {
 #if defined (__GNUC__)
 
-#if _PIXMAN_X86_64
+#if defined(_PIXMAN_X86_64)
     __asm__ volatile (
         "cpuid"				"\n\t"
 	: "=a" (*a), "=b" (*b), "=c" (*c), "=d" (*d)
