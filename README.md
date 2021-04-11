@@ -11,7 +11,7 @@ https://developer.android.com/ndk/downloads/older_releases.html
 ndk-build
 ```
 
-如果编译失败，请尝试：ndk-r22b、ndk-r21e、ndk-r15b、ndk-r10e
+如果编译失败，请尝试：ndk-r23-beta2、ndk-r22b、ndk-r21e、ndk-r15b、ndk-r10e
 
 ## 使用到的库
 |    名称    |   版本   |
@@ -22,8 +22,8 @@ ndk-build
 | glib       |  2.40.2  |
 | libexpat   |  2.3.0   |
 | libgif     |  5.2.1   |
-| libiconv   |  1.16    |
-| libjpeg    |          |
+| libiconv   |  mini    |
+| libjpeg    |  mini    |
 | libpng     |  1.6.10  |
 | libuuid    |  1.0.3   |
 | pixman     |  0.38.4  |
