@@ -21,7 +21,12 @@
 #define HAVE_SYS_PARAM_H  1
 #define HAVE_POLL         1
 
+#if !defined(__LP64__)
 #define HAVE_PTHREAD_COND_TIMEDWAIT_RELATIVE_NP 1
+#else
+#define HAVE_PTHREAD_CONDATTR_SETCLOCK 1
+#define CLOCK_MONOTONIC 1
+#endif // !__LP64__
 
 // the following tree are defined in android/support module
 extern char *gettext(const char *msgid);
