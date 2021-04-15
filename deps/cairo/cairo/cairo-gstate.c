@@ -45,12 +45,6 @@
 #include "cairo-pattern-private.h"
 #include "cairo-traps-private.h"
 
-#if _XOPEN_SOURCE >= 600 || defined (_ISOC99_SOURCE)
-#define ISFINITE(x) isfinite (x)
-#else
-#define ISFINITE(x) ((x) * (x) >= 0.) /* check for NaNs */
-#endif
-
 static cairo_status_t
 _cairo_gstate_init_copy (cairo_gstate_t *gstate, cairo_gstate_t *other);
 
@@ -247,7 +241,7 @@ _cairo_gstate_save (cairo_gstate_t **gstate, cairo_gstate_t **freelist)
 
     top = *freelist;
     if (top == NULL) {
-	top = malloc (sizeof (cairo_gstate_t));
+	top = _cairo_malloc (sizeof (cairo_gstate_t));
 	if (unlikely (top == NULL))
 	    return _cairo_error (CAIRO_STATUS_NO_MEMORY);
     } else
@@ -1646,6 +1640,65 @@ _cairo_gstate_copy_clip_rectangle_list (cairo_gstate_t *gstate)
     return list;
 }
 
+cairo_status_t
+_cairo_gstate_tag_begin (cairo_gstate_t *gstate,
+			 const char *tag_name, const char *attributes)
+{
+    cairo_pattern_union_t source_pattern;
+    cairo_stroke_style_t style;
+    double dash[2];
+    cairo_status_t status;
+    cairo_matrix_t aggregate_transform;
+    cairo_matrix_t aggregate_transform_inverse;
+
+    status = _cairo_gstate_get_pattern_status (gstate->source);
+    if (unlikely (status))
+	return status;
+
+    cairo_matrix_multiply (&aggregate_transform,
+                           &gstate->ctm,
+                           &gstate->target->device_transform);
+    cairo_matrix_multiply (&aggregate_transform_inverse,
+                           &gstate->target->device_transform_inverse,
+                           &gstate->ctm_inverse);
+
+    memcpy (&style, &gstate->stroke_style, sizeof (gstate->stroke_style));
+    if (_cairo_stroke_style_dash_can_approximate (&gstate->stroke_style, &aggregate_transform, gstate->tolerance)) {
+        style.dash = dash;
+        _cairo_stroke_style_dash_approximate (&gstate->stroke_style, &gstate->ctm, gstate->tolerance,
+					      &style.dash_offset,
+					      style.dash,
+					      &style.num_dashes);
+    }
+
+    _cairo_gstate_copy_transformed_source (gstate, &source_pattern.base);
+
+    return _cairo_surface_tag (gstate->target,
+			       TRUE, /* begin */
+			       tag_name,
+			       attributes ? attributes : "",
+			       &source_pattern.base,
+			       &style,
+			       &aggregate_transform,
+			       &aggregate_transform_inverse,
+			       gstate->clip);
+}
+
+cairo_status_t
+_cairo_gstate_tag_end (cairo_gstate_t *gstate,
+		       const char *tag_name)
+{
+    return _cairo_surface_tag (gstate->target,
+			       FALSE, /* begin */
+			       tag_name,
+			       NULL, /* attributes */
+			       NULL, /* source */
+			       NULL, /* stroke_style */
+			       NULL, /* ctm */
+			       NULL, /* ctm_inverse*/
+			       NULL); /* clip */
+}
+
 static void
 _cairo_gstate_unset_scaled_font (cairo_gstate_t *gstate)
 {
@@ -2160,7 +2213,7 @@ _cairo_gstate_transform_glyphs_to_backend (cairo_gstate_t	*gstate,
 	  *num_transformed_glyphs = 0;
 	  return;
 	}
-	/* XXX We currently drop any glyphs that has its position outside
+	/* XXX We currently drop any glyphs that have their position outside
 	 * of the surface boundaries by a safety margin depending on the
 	 * font scale.  This however can fail in extreme cases where the
 	 * font has really long swashes for example...  We can correctly

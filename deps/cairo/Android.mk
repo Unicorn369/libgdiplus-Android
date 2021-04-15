@@ -70,6 +70,7 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-path-stroke.c                 \
 	       cairo/cairo-path.c                        \
 	       cairo/cairo-pattern.c                     \
+	       cairo/cairo-pdf-interchange.c             \
 	       cairo/cairo-pdf-operators.c               \
 	       cairo/cairo-pdf-shading.c                 \
 	       cairo/cairo-pdf-surface.c                 \
@@ -87,6 +88,7 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-rtree.c                       \
 	       cairo/cairo-scaled-font-subsets.c         \
 	       cairo/cairo-scaled-font.c                 \
+	       cairo/cairo-script-surface.c              \
 	       cairo/cairo-shape-mask-compositor.c       \
 	       cairo/cairo-slope.c                       \
 	       cairo/cairo-spans-compositor.c            \
@@ -103,6 +105,8 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-surface-wrapper.c             \
 	       cairo/cairo-surface.c                     \
 	       cairo/cairo-svg-surface.c                 \
+	       cairo/cairo-tag-attributes.c              \
+	       cairo/cairo-tag-stack.c                   \
 	       cairo/cairo-tee-surface.c                 \
 	       cairo/cairo-time.c                        \
 	       cairo/cairo-tor-scan-converter.c          \
@@ -121,18 +125,14 @@ LIBCAIRO_SRC = \
 	       cairo/cairo-version.c                     \
 	       cairo/cairo-wideint.c                     \
 
-
-LIBCAIRO_CFLAGS:=                                    \
-    -DCAIRO_NO_MUTEX=1                               \
-    -DHAVE_STDINT_H                                  \
-    -DHAVE_UINT64_T                                  \
+LIBCAIRO_CFLAGS:= -DCAIRO_HAS_PTHREAD=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UINT64_T=1 -DHAVE_UNISTD_H=1
 
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := libcairo
-LOCAL_CFLAGS    := $(LIBCAIRO_CFLAGS) -Wno-missing-field-initializers -Wno-attributes
+LOCAL_CFLAGS    := $(LIBCAIRO_CFLAGS) -w
 LOCAL_SRC_FILES := $(LIBCAIRO_SRC)
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/android \
 					$(LOCAL_PATH)/../fontconfig \
