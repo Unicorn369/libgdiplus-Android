@@ -75,8 +75,7 @@ gdip_clone_image_attribute(const GpImageAttribute* attr, GpImageAttribute* clone
 	if (attr->colormap && attr->colormap_elem > 0) {
 		clone->colormap = GdipAlloc(sizeof(ColorMap) * attr->colormap_elem);
 
-		if (!clone->colormap)
-		{
+		if (!clone->colormap) {
 			gdip_dispose_image_attribute(clone);
 			return OutOfMemory;
 		}
@@ -87,8 +86,7 @@ gdip_clone_image_attribute(const GpImageAttribute* attr, GpImageAttribute* clone
 	if (attr->colormatrix) {
 		clone->colormatrix = GdipAlloc(sizeof(ColorMatrix));
 
-		if (!clone->colormatrix)
-		{
+		if (!clone->colormatrix) {
 			gdip_dispose_image_attribute(clone);
 			return OutOfMemory;
 		}
@@ -99,8 +97,7 @@ gdip_clone_image_attribute(const GpImageAttribute* attr, GpImageAttribute* clone
 	if (attr->graymatrix) {
 		clone->graymatrix = GdipAlloc(sizeof(ColorMatrix));
 
-		if (!clone->graymatrix)
-		{
+		if (!clone->graymatrix) {
 			gdip_dispose_image_attribute(clone);
 			return OutOfMemory;
 		}
@@ -110,9 +107,7 @@ gdip_clone_image_attribute(const GpImageAttribute* attr, GpImageAttribute* clone
 
 	if (attr->colorprofile_filename) {
 		clone->colorprofile_filename = strdup (attr->colorprofile_filename);
-
-		if (!clone->colorprofile_filename)
-		{
+		if (!clone->colorprofile_filename) {
 			gdip_dispose_image_attribute(clone);
 			return OutOfMemory;
 		}
@@ -141,19 +136,17 @@ gdip_get_image_attribute (GpImageAttributes* attr, ColorAdjustType type)
 }
 
 GpStatus
-gdip_process_bitmap_attributes (GpBitmap *bitmap, void **dest, GpImageAttributes* attr, BOOL *allocated)
+gdip_process_bitmap_attributes (GpBitmap *bitmap, GpImageAttributes* attr, GpBitmap **dest_bitmap)
 {
 	GpStatus status;
 	GpImageAttribute *imgattr, *def;
 	GpImageAttribute *colormap, *gamma, *trans, *cmatrix, *treshold, *cmyk;
-	GpBitmap *bmpdest;
+	GpBitmap *bmpdest = NULL;
 	ARGB color;
 	BYTE *color_p = (BYTE*) &color;
 
-	*allocated = FALSE;
-	bmpdest = NULL;
-
-	if (!bitmap || !dest || !attr)
+	*dest_bitmap = NULL;
+	if (!bitmap || !attr)
 		return Ok;
 
 	imgattr = gdip_get_image_attribute (attr, ColorAdjustTypeBitmap);
@@ -215,8 +208,7 @@ gdip_process_bitmap_attributes (GpBitmap *bitmap, void **dest, GpImageAttributes
 
 		bmpdest->frames[0].count = 1;
 		gdip_bitmap_setactive (bmpdest, NULL, 0);
-		*dest = bmpdest->active_bitmap->scan0;
-		*allocated = TRUE;
+		*dest_bitmap = bmpdest;
 	}
 
 	/*
@@ -354,7 +346,7 @@ gdip_process_bitmap_attributes (GpBitmap *bitmap, void **dest, GpImageAttributes
 				GdipBitmapGetPixel (bmpdest, x, y, &color);
 				color &= ~ALPHA_MASK;
 				
-				if (color >= trans->key_colorlow && color <= trans->key_colorhigh) {
+				if (color >= (trans->key_colorlow & ~ALPHA_MASK) && color <= (trans->key_colorhigh & ~ALPHA_MASK)) {
 					GdipBitmapSetPixel (bmpdest, x, y, 0x00FFFFFF /* transparent white */);
 				}
 			}
@@ -362,7 +354,7 @@ gdip_process_bitmap_attributes (GpBitmap *bitmap, void **dest, GpImageAttributes
 	}
 
 	/* Apply Color Matrix */
-	if (!(cmatrix->flags & ImageAttributeFlagsNoOp) && cmatrix->flags & ImageAttributeFlagsColorMatrixEnabled && cmatrix->colormatrix) {
+	if (!(cmatrix->flags & ImageAttributeFlagsNoOp) && (cmatrix->flags & ImageAttributeFlagsColorMatrixEnabled) && cmatrix->colormatrix != NULL) {
 		ActiveBitmapData *data = bmpdest->active_bitmap;
 		BYTE *v = ((BYTE*)data->scan0);
 		ARGB *scan;
@@ -428,11 +420,6 @@ gdip_process_bitmap_attributes (GpBitmap *bitmap, void **dest, GpImageAttributes
 			}
 			v += data->stride;
 		}
-	}
-
-	if (bmpdest != NULL) {
-		bmpdest->active_bitmap->scan0 = NULL;
-		gdip_bitmap_dispose (bmpdest);
 	}
 
 	return Ok;

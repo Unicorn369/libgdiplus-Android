@@ -640,6 +640,8 @@ gdip_bitmap_clone (GpBitmap *bitmap, GpBitmap **clonedbitmap)
 		return OutOfMemory;
 	}
 
+	gdip_bitmap_flush_surface (bitmap);
+
 	/* Copy simple types */
 	result->type = bitmap->type;
 	result->image_format = bitmap->image_format;
@@ -1334,7 +1336,7 @@ gdip_is_pixel_format_conversion_valid (PixelFormat src, PixelFormat dest)
 		/* all of these should be supported, but we only report the
 		 * ones we really can do for now */
 		/* We can't handle converting to/from the 565/555/1555 ones */
-		if ((src & 0xff00) == 16 || (dest & 0xff00) == 16) {
+		if ((src & 0xff00) == PixelFormatMax || (dest & 0xff00) == PixelFormatMax) {
 			return 0;
 		}
 		return 1;
@@ -2041,11 +2043,11 @@ GdipBitmapSetPixel (GpBitmap *bitmap, INT x, INT y, ARGB color)
 	
 	data = bitmap->active_bitmap;
 
-	if (x < 0 || y < 0 || x >= data->width || y >= data->height || data->reserved & GBD_LOCKED) {
-		return InvalidParameter;
-	}
-
 	if (gdip_is_an_indexed_pixelformat (data->pixel_format))
+		return InvalidParameter;
+	if (data->reserved & GBD_LOCKED)
+		return WrongState;
+	if (x < 0 || x >= data->width || y < 0 || y >= data->height)
 		return InvalidParameter;
 
 	if (bitmap->surface != NULL && gdip_bitmap_format_needs_premultiplication(bitmap)) {
@@ -2099,10 +2101,10 @@ GdipBitmapGetPixel (GpBitmap *bitmap, INT x, INT y, ARGB *color)
 
 	data = bitmap->active_bitmap;
 
-	if (x < 0 || y < 0 || x >= data->width || y >= data->height || data->reserved & GBD_LOCKED)
-		return InvalidParameter;
-
 	if (gdip_is_an_indexed_pixelformat (data->pixel_format)) {
+		if (x < 0 || x >= data->width || y < 0 || y >= data->height)
+			return InvalidParameter;
+
 		StreamingState	pixel_stream;
 		GpStatus	status;
 		unsigned int	palette_index;
